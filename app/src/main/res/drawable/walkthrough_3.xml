@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="160dp"
+    android:height="320dp"
+    android:viewportWidth="160"
+    android:viewportHeight="320">
+    <!-- Placeholder graphic representing charts/reports -->
+    <path
+        android:fillColor="#FFFE6347"
+        android:pathData="M16,40 h128 a8,8 0,0,1 8,8 v224 a8,8 0,0,1 -8,8 h-128 a8,8 0,0,1 -8,-8 v-224 a8,8 0,0,1 8,-8 z"/>
+    <!-- Bar chart -->
+    <path android:fillColor="#FFFFFFFF" android:pathData="M32,220 h16 v40 h-16 z"/>
+    <path android:fillColor="#FFFFFFFF" android:pathData="M56,200 h16 v60 h-16 z"/>
+    <path android:fillColor="#FFFFFFFF" android:pathData="M80,170 h16 v90 h-16 z"/>
+    <path android:fillColor="#FFFFFFFF" android:pathData="M104,190 h16 v70 h-16 z"/>
+    <!-- Pie chart -->
+    <path android:fillColor="#FFFFFFFF" android:pathData="M54,90 a26,26 0,1,0 52,0 a26,26 0,1,0 -52,0 z"/>
+    <path android:fillColor="#FFFE6347" android:pathData="M80,64 l26,26 l-26,0 z"/>
+  </vector>

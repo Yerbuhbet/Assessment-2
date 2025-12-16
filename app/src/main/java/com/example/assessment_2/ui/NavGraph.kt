@@ -34,6 +34,11 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.background
+import com.example.assessment_2.R
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -145,27 +150,259 @@ fun SplashScreen(onFinished: () -> Unit) {
 fun WalkthroughScreen(onDone: () -> Unit) {
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { 3 })
     val scope = rememberCoroutineScope()
+
+    val orange = Color(0xFFFE6347)
     Scaffold { inner ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(inner)
-                .padding(24.dp),
-            verticalArrangement = Arrangement.SpaceBetween
+                .padding(inner),
         ) {
-            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                HorizontalPager(state = pagerState, modifier = Modifier.fillMaxWidth().weight(1f)) { page ->
-                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text(text = "Walkthrough ${page + 1}", style = MaterialTheme.typography.headlineSmall)
+            // Pager content area takes most of the screen
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+            ) { page ->
+                WalkthroughPage(
+                    pageIndex = page,
+                    orange = orange,
+                )
+            }
+
+            // Indicators + divider + buttons area
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp, vertical = 12.dp)
+            ) {
+                PageIndicators(current = pagerState.currentPage, orange = orange)
+                Spacer(Modifier.height(8.dp))
+                // Thin divider line
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(1.dp)
+                        .padding(top = 4.dp)
+                        .semantics { }
+                        .then(Modifier),
+                ) {
+                    // Light gray almost invisible divider
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .height(1.dp)
+                            .padding(horizontal = 0.dp)
+                            .align(Alignment.Center)
+                            .background(Color(0xFFEAEAEA))
+                    )
+                }
+                Spacer(Modifier.height(12.dp))
+
+                if (pagerState.currentPage < 2) {
+                    // Two buttons in one row: Skip (secondary) and Continue (primary)
+                    RowButtons(
+                        orange = orange,
+                        onSkip = { onDone() },
+                        onContinue = {
+                            scope.launch {
+                                val next = (pagerState.currentPage + 1).coerceAtMost(2)
+                                pagerState.animateScrollToPage(next)
+                            }
+                        }
+                    )
+                } else {
+                    // Single Get Started button
+                    Button(
+                        onClick = onDone,
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                            containerColor = orange,
+                            contentColor = Color.White
+                        )
+                    ) {
+                        Text("Get Started")
                     }
                 }
-                Spacer(Modifier.height(16.dp))
-                Text(text = "Swipe to continue", style = MaterialTheme.typography.bodyMedium)
             }
-            Button(
-                onClick = onDone,
-                modifier = Modifier.fillMaxWidth(),
-            ) { Text("Get Started") }
+        }
+    }
+}
+
+@Composable
+private fun RowButtons(orange: Color, onSkip: () -> Unit, onContinue: () -> Unit) {
+    Row(Modifier.fillMaxWidth()) {
+        // Skip - secondary emphasis
+        Button(
+            onClick = onSkip,
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 8.dp),
+            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                containerColor = Color(0x1AFE6347), // faded orange background
+                contentColor = orange
+            )
+        ) { Text("Skip") }
+
+        // Continue - primary
+        Button(
+            onClick = onContinue,
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 8.dp),
+            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                containerColor = orange,
+                contentColor = Color.White
+            )
+        ) { Text("Continue") }
+    }
+}
+
+@Composable
+private fun WalkthroughPage(pageIndex: Int, orange: Color) {
+    // Page-specific texts and inner image resources
+    val (title, desc, innerRes) = when (pageIndex) {
+        0 -> Triple(
+            "Your Ultimate Pomodoro Productivity Assistant",
+            "Focusify helps you stay on track, manage tasks, and work efficiently. Let’s get started with Focusify right now!",
+            R.drawable.walkthrough_1
+        )
+        1 -> Triple(
+            "Effortless Organization – All in One Place",
+            "Easily categorize your work, stay organized, and conquer tasks with Focusify’s intuitive project and tag system.",
+            R.drawable.walkthrough_2
+        )
+        else -> Triple(
+            "Track Your Progress & Visualize Your Success",
+            "Track your productivity over time, gain insights, and level up your efficiency. It’s time to achieve your goals.",
+            R.drawable.walkthrough_3
+        )
+    }
+
+    Box(Modifier.fillMaxSize()) {
+        // Layer 1: Orange wave background (top ~50%)
+        OrangeWave(
+            color = orange,
+            heightFraction = if (pageIndex == 0) 0.5f else 0.56f // page2/3 slightly lower
+        )
+
+        // Layer 2: Phone mockup + inner image
+        PhoneMockupWithInnerImage(
+            innerImageRes = innerRes,
+        )
+
+        // Layer 3: Texts on white area below
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 24.dp)
+                .padding(bottom = 12.dp)
+        ) {
+            Spacer(Modifier.height(16.dp))
+            Text(
+                text = title,
+                style = MaterialTheme.typography.headlineSmall,
+                color = Color(0xFF1A1A1A),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                text = desc,
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color(0xFF9E9E9E),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(Modifier.height(24.dp))
+        }
+    }
+}
+
+@Composable
+private fun PhoneMockupWithInnerImage(innerImageRes: Int) {
+    // Sizes are approximate; adjust as needed.
+    val phoneWidth = 240.dp
+    val phoneHeight = 480.dp
+
+    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
+        // Place the phone so lower part dips into the white area
+        Box(
+            modifier = Modifier
+                .padding(top = 64.dp)
+                .size(width = phoneWidth, height = phoneHeight)
+        ) {
+            // Phone frame
+            androidx.compose.foundation.Image(
+                painter = androidx.compose.ui.res.painterResource(id = R.drawable.android_mockup_mobile_phone_frame),
+                contentDescription = null,
+                modifier = Modifier.matchParentSize()
+            )
+            // Inner screen placeholder image centered with insets
+            androidx.compose.foundation.Image(
+                painter = androidx.compose.ui.res.painterResource(id = innerImageRes),
+                contentDescription = null,
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(24.dp)
+                    .fillMaxSize()
+            )
+        }
+    }
+}
+
+@Composable
+private fun OrangeWave(color: Color, heightFraction: Float) {
+    // Draw an orange area occupying ~heightFraction with a smooth wave at the bottom
+    androidx.compose.foundation.Canvas(modifier = Modifier.fillMaxSize()) {
+        val w = size.width
+        val h = size.height
+        val orangeHeight = h * heightFraction
+
+        val path = androidx.compose.ui.graphics.Path().apply {
+            moveTo(0f, 0f)
+            lineTo(0f, orangeHeight * 0.85f)
+            // Smooth wave: down in center (valley) and up at sides
+            cubicTo(
+                w * 0.25f, orangeHeight * 1.05f,
+                w * 0.35f, orangeHeight * 0.7f,
+                w * 0.5f, orangeHeight * 0.9f
+            )
+            cubicTo(
+                w * 0.65f, orangeHeight * 1.1f,
+                w * 0.78f, orangeHeight * 0.95f,
+                w, orangeHeight
+            )
+            lineTo(w, 0f)
+            close()
+        }
+        drawPath(path = path, color = color)
+    }
+}
+
+@Composable
+private fun PageIndicators(current: Int, orange: Color) {
+    Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+        androidx.compose.foundation.layout.Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            repeat(3) { index ->
+                if (index == current) {
+                    Box(
+                        modifier = Modifier
+                            .height(8.dp)
+                            .width(28.dp)
+                            .background(orange, shape = androidx.compose.foundation.shape.RoundedCornerShape(50))
+                    )
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .size(8.dp)
+                            .background(Color(0xFFBDBDBD), shape = androidx.compose.foundation.shape.CircleShape)
+                    )
+                }
+            }
         }
     }
 }

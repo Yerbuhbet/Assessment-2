@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="160dp"
+    android:height="320dp"
+    android:viewportWidth="160"
+    android:viewportHeight="320">
+    <!-- Placeholder graphic representing Pomodoro/productivity -->
+    <path
+        android:fillColor="#FFFE6347"
+        android:pathData="M20,40 h120 a10,10 0,0,1 10,10 v220 a10,10 0,0,1 -10,10 h-120 a10,10 0,0,1 -10,-10 v-220 a10,10 0,0,1 10,-10 z"/>
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M40,80 a40,40 0,1,0 80,0 a40,40 0,1,0 -80,0 z"/>
+    <path
+        android:fillColor="#FFFE6347"
+        android:pathData="M78,50 h4 v34 h-4 z"/>
+    <path
+        android:fillColor="#FFFE6347"
+        android:pathData="M78,80 l28,16 l-3,5 l-25,-14 l0,-7 z"/>
+  </vector>

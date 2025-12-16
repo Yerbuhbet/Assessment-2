@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="160dp"
+    android:height="320dp"
+    android:viewportWidth="160"
+    android:viewportHeight="320">
+    <!-- Placeholder graphic representing organization/tasks -->
+    <path
+        android:fillColor="#FFFE6347"
+        android:pathData="M16,40 h128 a8,8 0,0,1 8,8 v224 a8,8 0,0,1 -8,8 h-128 a8,8 0,0,1 -8,-8 v-224 a8,8 0,0,1 8,-8 z"/>
+    <!-- Cards/tiles -->
+    <path android:fillColor="#FFFFFFFF" android:pathData="M28,60 h44 v28 h-44 z"/>
+    <path android:fillColor="#FFFFFFFF" android:pathData="M88,60 h44 v28 h-44 z"/>
+    <path android:fillColor="#FFFFFFFF" android:pathData="M28,100 h44 v28 h-44 z"/>
+    <path android:fillColor="#FFFFFFFF" android:pathData="M88,100 h44 v28 h-44 z"/>
+    <path android:fillColor="#FFFFFFFF" android:pathData="M28,140 h104 v28 h-104 z"/>
+    <path android:fillColor="#33FFFFFF" android:pathData="M28,180 h104 v28 h-104 z"/>
+  </vector>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="240dp"
+    android:height="480dp"
+    android:viewportWidth="240"
+    android:viewportHeight="480">
+    <!-- Outer phone body -->
+    <path
+        android:name="body"
+        android:fillColor="#FFFBFBFB"
+        android:strokeColor="#FFBDBDBD"
+        android:strokeWidth="2"
+        android:pathData="M24,4 h192 a20,20 0,0,1 20,20 v432 a20,20 0,0,1 -20,20 h-192 a20,20 0,0,1 -20,-20 v-432 a20,20 0,0,1 20,-20 z"/>
+
+    <!-- Screen area (dark gray) -->
+    <path
+        android:name="screen"
+        android:fillColor="#FF2B2B2B"
+        android:pathData="M36,44 h168 a8,8 0,0,1 8,8 v340 a8,8 0,0,1 -8,8 h-168 a8,8 0,0,1 -8,-8 v-340 a8,8 0,0,1 8,-8 z"/>
+
+    <!-- Speaker notch -->
+    <path
+        android:name="speaker"
+        android:fillColor="#FF9E9E9E"
+        android:pathData="M110,20 h20 a3,3 0,0,1 3,3 v4 a3,3 0,0,1 -3,3 h-20 a3,3 0,0,1 -3,-3 v-4 a3,3 0,0,1 3,-3 z"/>
+
+    <!-- Home indicator placeholder at bottom -->
+    <path
+        android:name="home"
+        android:fillColor="#339E9E9E"
+        android:pathData="M90,446 h60 a4,4 0,0,1 0,8 h-60 a4,4 0,0,1 0,-8 z"/>
+</vector>
